@@ -2,9 +2,6 @@
 //  ViewController.swift
 //  AKSwiftAuth0Test
 //
-//  Created by Iuliia Zhelem on 13.09.16.
-//  Copyright © 2016 Akvelon. All rights reserved.
-//
 
 import UIKit
 import Auth0
@@ -18,7 +15,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     
+    //Step 1: Login to Auth0
     @IBAction func clickLoginButton(sender: AnyObject) {
+        if (self.emailTextField.text?.characters.count < 1) {
+            self.showMessage("Please eneter an email");
+            return;
+        }
+        if (self.passwordTextField.text?.characters.count < 1) {
+            self.showMessage("Please eneter a password");
+            return;
+        }
+
         Auth0
         .authentication()
         .login(
@@ -38,6 +45,7 @@ class ViewController: UIViewController {
         }
     }
     
+    //Step 2: Fetch the User info
     func fetchUserInfoWithToken(token:String?) {
         if let actualToken = token {
             Auth0
@@ -53,7 +61,8 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+   
+    //Internal methods
     func showMessage(message: String) {
         dispatch_async(dispatch_get_main_queue()) {
             let alert = UIAlertController(title: "Auth0", message: message, preferredStyle: UIAlertControllerStyle.Alert)

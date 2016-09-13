@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>ClientId</key>
-	<string>1T8XeajR2FhDBAAz7JQ22mmzqCMoqzud</string>
+	<string>&lt;CLIENT_ID&gt;</string>
 	<key>Domain</key>
-	<string>juliazhelem.eu.auth0.com</string>
+	<string>{DOMAIN}</string>
 </dict>
 </plist>
