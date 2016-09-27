@@ -61,7 +61,43 @@ class ViewController: UIViewController {
             }
         }
     }
-   
+
+    //Step 3: Get Facebook data with Facebook AccessToken
+    @IBAction func clickFacebookButton(sender: AnyObject) {
+        //Facebook user access token from Access Token Tool https://developers.facebook.com 
+        let fbAccessToken = "EAAOwPUTw7gIBAJvFDCOWg5STnpWbdKhfTOZC256pyQyUqJjDaSLdeU6ECgXdiLN8h49vMaNxHTw6PIdnIYaYQJMuYr5bzlZCP2qPn5pL6D8pDOIptwjvtHA9iwtCRgCjX0moMPDYAbm6J9cwVZCZCQNvWA2p0F8ZD"
+        Auth0
+            .authentication()
+            .loginSocial(token: fbAccessToken, connection: "facebook")
+            .start { result in
+                switch result {
+                case .Success(let credentials):
+                    self.retrievedCredentials = credentials
+                    self.fetchUserInfoWithAccessToken(credentials.accessToken)
+                    print("access_token: \(credentials.accessToken)")
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+    }
+    
+    //Step 4: Fetch the User info
+    func fetchUserInfoWithAccessToken(token:String?) {
+        if let actualToken = token {
+            Auth0
+                .authentication()
+                .userInfo(token: actualToken)
+                .start { result in
+                    switch result {
+                    case .Success(let profile):
+                        self.showUserProfile(profile)
+                    case .Failure(let error):
+                        self.showMessage("Error : \(error)")
+                    }
+            }
+        }
+    }
+
     //Internal methods
     func showMessage(message: String) {
         dispatch_async(dispatch_get_main_queue()) {
